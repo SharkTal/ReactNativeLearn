@@ -24,16 +24,18 @@ export default function App() {
 
 
   const plus = () => {
+    var temp = numbers.n1 + numbers.n2;
     setResult(numbers.n1 + numbers.n2)
     setNumbers({ n1: '', n2: '' })
-    setHistory([...history, { key: (numbers.n1 + " + " + numbers.n2 + " = " + result) }])
+    setHistory([...history, { key: (numbers.n1 + " + " + numbers.n2 + " = " + temp) }])
 
   }
 
   const sbustract = () => {
+    var temp = numbers.n1 - numbers.n2;
     setResult(numbers.n1 - numbers.n2)
     setNumbers({ n1: '', n2: '' })
-    setHistory([...history, { key: (numbers.n1 + " - " + numbers.n2 + " = " + result) }])
+    setHistory([...history, { key: (numbers.n1 + " - " + numbers.n2 + " = " + temp) }])
 
   }
 
