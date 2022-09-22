@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, FlatList, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import { API_URL, API_TOKEN } from '@env';
 import { useState } from 'react';
 
@@ -26,7 +26,11 @@ export default function App() {
           data={recipes}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <Text>{item.strMeal} </Text>
+            <View style={styles.recipesView}>
+              <Text>{item.strMeal} </Text>
+              <Image style={styles.image} source={{ uri: item.strMealThumb }} />
+            </View>
+
           )}
         />
       </View>
@@ -59,6 +63,7 @@ const styles = StyleSheet.create({
   },
   display: {
     flex: 6,
+    alignItems: 'center',
     paddingTop: 40,
     backgroundColor: 'silver',
     width: 400
@@ -66,5 +71,12 @@ const styles = StyleSheet.create({
   input: {
     borderBottomColor: 'red',
     borderBottomWidth: 1
+  },
+  recipesView: {
+    alignItems: 'center'
+  },
+  image: {
+    width: 80,
+    height: 80,
   }
 });
