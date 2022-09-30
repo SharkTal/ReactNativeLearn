@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { push, ref, set, remove } from 'firebase/database';
+import { push, ref, set, remove, update, get, child } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { db } from './firebase';
@@ -23,6 +23,24 @@ export default function App() {
       phone: users.phone
     })
   }
+
+
+  //-----------------------------------------------------------
+  const retrieveData = () => {
+    const reference = ref(db);
+    get(child(reference, "users/" + users.name)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setUsers({ name: snapshot.val().name, email: snapshot.val().email, phone: snapshot.val().phone })
+        alert("Data found")
+      } else {
+        alert('No data found')
+      }
+    })
+      .catch((error) => {
+        alert("Unsuccessful, error " + error)
+      })
+
+  }
   //-----------------------------------------------------------
 
   const removeData = () => {
@@ -33,6 +51,17 @@ export default function App() {
       phone: users.phone
     })
   }
+
+  //-----------------------------------------------------------
+  const updateData = () => {
+    const referenc = ref(db, 'users/' + users.name)
+    update(referenc, {
+      email: users.email,
+      phone: users.phone
+    })
+  }
+
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -53,8 +82,14 @@ export default function App() {
         value={users.phone}
         onChangeText={text => handleOnChange('phone', text)}
       />
-      <Button title='WriteData' onPress={writeData} />
-      <Button title='Remove' onPress={removeData} />
+      <View style={styles.buttonView}>
+        <Button style={styles.button} title='WriteData' onPress={writeData} />
+        <Button style={styles.button} title='Retrieve' onPress={retrieveData} />
+
+        <Button style={styles.button} title='update' onPress={updateData} />
+        <Button style={styles.button} title='Remove' onPress={removeData} />
+      </View>
+
     </View>
   );
 }
@@ -71,5 +106,11 @@ const styles = StyleSheet.create({
     width: 300,
     height: 50,
     marginBottom: 10
+  },
+  buttonView: {
+    flexDirection: 'row'
+  },
+  button: {
+
   }
 });
