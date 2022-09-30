@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { ref, push, set, onValue } from "firebase/database";
+import { ref, push, set, onValue, remove } from "firebase/database";
 import { useEffect, useState } from 'react';
 import { db } from './components/config';
 
@@ -15,7 +15,8 @@ export default function App() {
 
   //Save Item to firebase
   const saveItem = () => {
-    push(ref(db, 'items/'), {
+
+    push(ref(db, '/items'), {
       product: product,
       amount: amount
     }).then(
@@ -40,9 +41,9 @@ export default function App() {
   }, [])
 
   //delete
-  const del = (itemID) => {
+  const del = () => {
 
-  }
+  };
 
 
   return (
@@ -72,9 +73,9 @@ export default function App() {
         style={styles.flatlist}
         data={items}
         renderItem={
-          ({ item }) => <View>
+          ({ item }) => <View style={{ flexDirection: 'row' }}>
             <Text>{item.product},{item.amount} </Text>
-            <Button title='bought' onPress={del} />
+            <Text style={{ color: 'red' }} onPress={del}> bought </Text>
           </View>
         }
       />
@@ -103,6 +104,6 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     width: 300,
-    backgroundColor: 'grey',
+    backgroundColor: 'silver',
   }
 });
